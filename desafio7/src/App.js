@@ -1,42 +1,56 @@
-import logo from "./logo.svg";
 import "./App.css";
-import React from 'react'
+import React from "react";
 
-class App extends React.Component{
-  constructor(props){
-    super(props)
+class App extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       newTask: "",
-   }
-  }
-  
-  handleTaskChange = (event) => {
-      this.setState({
-        newTask: event.target.value,
-      });
+      tasks: [],
     };
+  }
+
+  handleTaskChange = (event) => {
+    this.setState({
+      newTask: event.target.value,
+    });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+      newTask: "",
+    });
+    this.state.tasks.push(`${this.state.newTask}`);
+    console.log(this.state.tasks);
+  };
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div className="container">
-            <h1 className="title">
-              Hello world{" "}
-              <span aria-label="emoji" role="img">
-                🔥
-              </span>
-            </h1>
-            <input
-              onChange={this.handleTaskChange}
-              placeholder="Aguante APV"
-              type="text"
-              className="new-task"
-            />
-            <h2>{this.state.newTask}</h2>
-          </div>
-        </header>
+        <h1 className="title">
+          Lista de tareas{" "}
+          <span aria-label="emoji" role="img">
+            🔥
+          </span>
+        </h1>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            value={this.state.newTask}
+            onChange={this.handleTaskChange}
+            placeholder="Aguante APV"
+            type="text"
+            className="new-task"
+          />
+        </form>
+        <h2>{this.state.newTask}</h2>
+        <div className="tasklist">
+          {this.state.tasks.map((task) => (
+            <div key={Math.random()} className="task-container">
+              <h3 className="task">{task}</h3>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
